@@ -1,0 +1,75 @@
+<div class="task-form">
+  <div class="task-form__header">
+    <h2 class="task-form__title">{{ isEditing ? 'Edit task' : 'Add a new task' }}</h2>
+    @if (isEditing) {
+      <span class="badge badge--editing">Editing #{{ task?.id }}</span>
+    }
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label for="task-title">Title <span class="field__required">*</span></label>
+      <input
+        id="task-title"
+        type="text"
+        formControlName="title"
+        maxlength="200"
+        placeholder="What needs to be done?"
+        [class.field__input--invalid]="form.controls.title.touched && form.controls.title.invalid"
+      />
+      @if (form.controls.title.touched && form.controls.title.hasError('required')) {
+        <small class="field__error">Title is required.</small>
+      }
+      @if (form.controls.title.hasError('maxlength')) {
+        <small class="field__error">Title must not exceed 200 characters.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="task-description">Description</label>
+      <textarea
+        id="task-description"
+        formControlName="description"
+        rows="3"
+        maxlength="2000"
+        placeholder="Add more detail (optional)"
+        [class.field__input--invalid]="form.controls.description.invalid"
+      ></textarea>
+      @if (form.controls.description.hasError('maxlength')) {
+        <small class="field__error">Description must not exceed 2000 characters.</small>
+      }
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="task-priority">Priority</label>
+        <select id="task-priority" formControlName="priority">
+          @for (priority of priorities; track priority) {
+            <option [value]="priority">{{ priority }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="task-due">Due date</label>
+        <input id="task-due" type="date" formControlName="dueDate" />
+      </div>
+    </div>
+
+    @if (isEditing) {
+      <label class="checkbox">
+        <input type="checkbox" formControlName="isCompleted" />
+        <span>Mark as completed</span>
+      </label>
+    }
+
+    <div class="task-form__actions">
+      <button type="submit" class="btn btn--primary" [disabled]="saving">
+        {{ saving ? 'Saving…' : isEditing ? 'Save changes' : 'Add task' }}
+      </button>
+      <button type="button" class="btn btn--ghost" (click)="reset()" [disabled]="saving">
+        {{ isEditing ? 'Cancel' : 'Clear' }}
+      </button>
+    </div>
+  </form>
+</div>

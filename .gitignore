@@ -1,0 +1,56 @@
+# ============================================================================
+#  .NET / Visual Studio
+# ============================================================================
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.swp
+artifacts/
+project.lock.json
+*.nupkg
+*.snupkg
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# ============================================================================
+#  Angular / Node (frontend)
+# ============================================================================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/tmp/
+frontend/out-tsc/
+frontend/coverage/
+npm-debug.log*
+yarn-error.log*
+.npm/
+
+# ============================================================================
+#  Environment / secrets (keep appsettings.json; ignore local overrides)
+# ============================================================================
+appsettings.*.local.json
+*.local
+.env
+.env.*
+
+# ============================================================================
+#  Database artifacts
+# ============================================================================
+*.mdf
+*.ldf
+*.bak
+
+# ============================================================================
+#  OS files
+# ============================================================================
+.DS_Store
+Thumbs.db
+desktop.ini

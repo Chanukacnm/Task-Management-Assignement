@@ -1,0 +1,17 @@
+# Normalize line endings: Git stores text as LF and checks out native on each OS.
+* text=auto
+
+# Keep these tooling files LF to avoid cross-platform churn.
+*.sh text eol=lf
+*.json text eol=lf
+*.ts text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+*.cs text eol=lf
+*.sql text eol=lf
+*.md text eol=lf
+
+# Treat common binaries as binary.
+*.ico binary
+*.png binary
+*.jpg binary

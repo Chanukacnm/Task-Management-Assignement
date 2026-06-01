@@ -1,0 +1,57 @@
+@if (loading) {
+  <div class="task-list__state">Loading tasks…</div>
+} @else if (tasks.length === 0) {
+  <div class="task-list__state task-list__state--empty">
+    <p class="task-list__empty-title">No tasks found</p>
+    <p class="task-list__empty-hint">Try adjusting your filters, or add a new task on the right.</p>
+  </div>
+} @else {
+  <ul class="task-list">
+    @for (task of tasks; track trackById($index, task)) {
+      <li
+        class="task-card"
+        [class.task-card--completed]="task.isCompleted"
+        [class.task-card--selected]="task.id === selectedId"
+        [class.task-card--low]="task.priority === 'Low'"
+        [class.task-card--medium]="task.priority === 'Medium'"
+        [class.task-card--high]="task.priority === 'High'"
+      >
+        <label class="task-card__check" [attr.title]="task.isCompleted ? 'Mark as active' : 'Mark as completed'">
+          <input
+            type="checkbox"
+            [checked]="task.isCompleted"
+            (change)="toggleComplete.emit(task)"
+            [attr.aria-label]="'Toggle completion for ' + task.title"
+          />
+        </label>
+
+        <div class="task-card__body">
+          <div class="task-card__top">
+            <span class="task-card__title">{{ task.title }}</span>
+            <span class="badge badge--priority-{{ task.priority | lowercase }}">{{ task.priority }}</span>
+          </div>
+
+          @if (task.description) {
+            <p class="task-card__description">{{ task.description }}</p>
+          }
+
+          <div class="task-card__meta">
+            @if (task.dueDateUtc) {
+              <span class="task-card__due" [class.task-card__due--overdue]="isOverdue(task)">
+                @if (isOverdue(task)) { ⚠ } Due {{ task.dueDateUtc | date: 'mediumDate' : 'UTC' }}
+              </span>
+            }
+            <span class="task-card__status">
+              {{ task.isCompleted ? 'Completed' : 'Active' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="task-card__actions">
+          <button type="button" class="btn-icon" title="Edit task" (click)="edit.emit(task)">✎</button>
+          <button type="button" class="btn-icon btn-icon--danger" title="Delete task" (click)="remove.emit(task)">🗑</button>
+        </div>
+      </li>
+    }
+  </ul>
+}

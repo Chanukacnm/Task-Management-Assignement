@@ -1,0 +1,86 @@
+<section class="tasks">
+  <div class="tasks__toolbar">
+    <div class="tasks__search">
+      <input
+        type="search"
+        placeholder="Search tasks…"
+        [ngModel]="search"
+        (ngModelChange)="onSearchChange($event)"
+        aria-label="Search tasks"
+      />
+    </div>
+
+    <div class="tasks__filters">
+      <label class="select">
+        <span class="select__label">Status</span>
+        <select [(ngModel)]="status" (ngModelChange)="onFilterChange()" aria-label="Filter by status">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </label>
+
+      <label class="select">
+        <span class="select__label">Priority</span>
+        <select [(ngModel)]="priority" (ngModelChange)="onFilterChange()" aria-label="Filter by priority">
+          <option value="">All</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </label>
+
+      <label class="select">
+        <span class="select__label">Sort by</span>
+        <select [(ngModel)]="sortBy" (ngModelChange)="onFilterChange()" aria-label="Sort by">
+          <option value="created">Created</option>
+          <option value="title">Title</option>
+          <option value="priority">Priority</option>
+          <option value="duedate">Due date</option>
+          <option value="status">Status</option>
+        </select>
+      </label>
+
+      <button
+        type="button"
+        class="btn btn--ghost tasks__sort-dir"
+        (click)="toggleSortDir()"
+        [attr.title]="sortDir === 'asc' ? 'Ascending' : 'Descending'"
+      >
+        {{ sortDir === 'asc' ? '↑ Asc' : '↓ Desc' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="tasks__layout">
+    <div class="panel tasks__list-panel">
+      <header class="panel__header">
+        <div>
+          <h2 class="panel__title">Tasks</h2>
+          <p class="panel__subtitle">
+            {{ completedCount() }} of {{ totalCount() }} completed
+          </p>
+        </div>
+        <button type="button" class="btn btn--primary btn--sm" (click)="startCreate()">+ New task</button>
+      </header>
+
+      <app-task-list
+        [tasks]="tasks()"
+        [loading]="loading()"
+        [selectedId]="selectedTask()?.id ?? null"
+        (toggleComplete)="toggleComplete($event)"
+        (edit)="startEdit($event)"
+        (remove)="deleteTask($event)"
+      />
+    </div>
+
+    <aside class="panel tasks__form-panel">
+      <app-task-form
+        [task]="selectedTask()"
+        [saving]="saving()"
+        (save)="onSave($event)"
+        (cancelEdit)="cancelEdit()"
+      />
+    </aside>
+  </div>
+</section>

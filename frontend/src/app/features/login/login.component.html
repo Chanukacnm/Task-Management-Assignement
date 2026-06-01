@@ -1,0 +1,77 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-card__header">
+      <span class="login-card__logo" aria-hidden="true">✓</span>
+      <h1 class="login-card__title">Sign in</h1>
+      <p class="login-card__subtitle">Manage your tasks with ease.</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert alert--error" role="alert">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          autocomplete="username"
+          placeholder="Enter your username"
+          [class.field__input--invalid]="form.controls.username.touched && form.controls.username.invalid"
+        />
+        @if (form.controls.username.touched && form.controls.username.hasError('required')) {
+          <small class="field__error">Username is required.</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="field__password">
+          <input
+            id="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+            [class.field__input--invalid]="form.controls.password.touched && form.controls.password.invalid"
+          />
+          <button
+            type="button"
+            class="field__toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            [attr.aria-pressed]="showPassword()"
+          >
+            @if (showPassword()) {
+              <!-- eye-off icon -->
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3l18 18" />
+                <path d="M10.58 10.58a2 2 0 002.83 2.83" />
+                <path d="M9.36 5.21A9.5 9.5 0 0112 5c4.64 0 8.57 3.01 9.96 7.18a9.6 9.6 0 01-2.17 3.55M6.23 6.23A9.65 9.65 0 002.04 12.18 9.5 9.5 0 0012 19c1.06 0 2.08-.17 3.04-.49" />
+              </svg>
+            } @else {
+              <!-- eye icon -->
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.04 12.18a9.5 9.5 0 0119.92 0 9.5 9.5 0 01-19.92 0z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            }
+          </button>
+        </div>
+        @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+          <small class="field__error">Password is required.</small>
+        }
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--block" [disabled]="submitting()">
+        {{ submitting() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="login-card__hint">
+      Demo credentials — <strong>admin</strong> / <strong>Passw0rd!</strong>
+    </p>
+  </div>
+</div>
