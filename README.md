@@ -261,23 +261,6 @@ The API port is defined in `backend/src/TaskManagement.Api/Properties/launchSett
 
 ---
 
-## How the requirements are met
-
-| Requirement                                              | Where / how                                                                 |
-| -------------------------------------------------------- | --------------------------------------------------------------------------- |
-| RESTful CRUD APIs for tasks                              | `TasksController` + CQRS commands/queries                                   |
-| MSSQL / MSSQL Express database                           | EF Core + SQL Server; `database/schema.sql` & `seed.sql`                    |
-| Basic authentication for API endpoints                  | `BasicAuthenticationHandler`, `[Authorize]` on controllers                  |
-| Error handling & request validation                     | `ExceptionHandlingMiddleware` + FluentValidation `ValidationBehaviour`      |
-| UI to add/edit/delete/complete tasks                    | `tasks-page`, `task-list`, `task-form` components                           |
-| Simple username/password auth (no JWT)                  | Basic auth + `AuthService` + `auth.interceptor` + `auth.guard`              |
-| List and add/update view side by side                   | Two-column grid in `tasks-page.component`                                   |
-| Sorting and filtering                                   | Toolbar in the UI → server-side filtering/sorting in `GetTasksQuery`        |
-| Basic styling & user messages                           | SCSS design tokens + toast notifications                                    |
-| Source code + DB script delivered                       | This repository: `backend/`, `frontend/`, `database/`                       |
-
----
-
 ## Notes & assumptions
 
 - The API auto-creates and seeds the database on startup for convenience; in production you would gate migrations behind a deliberate step.
